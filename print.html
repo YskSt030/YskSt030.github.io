@@ -3,7 +3,9 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Main - algo_memo</title>
+        <title>algo_memo</title>
+        
+        <meta name="robots" content="noindex" />
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -143,17 +145,91 @@
 <table><thead><tr><th>問題例</th><th>解法</th></tr></thead><tbody>
 <tr><td>- 〇〇のこれまでの総和を出して欲しい<br>- ある座標位置に紙を重ねて行った時の厚みの最大値を出して欲しい</td><td><a href="./Other/imos.html">累積話の計算(imos法)</a></td></tr>
 </tbody></table>
-</div>
+</div><h1><a class="header" href="#tree関連" id="tree関連">Tree関連</a></h1>
+<h1><a class="header" href="#eular-tour" id="eular-tour">Eular Tour</a></h1>
+<h1><a class="header" href="#other" id="other">Other</a></h1>
+<h1><a class="header" href="#いもす法" id="いもす法">いもす法</a></h1>
+<h2><a class="header" href="#典型問題" id="典型問題">典型問題</a></h2>
+<ul>
+<li>ある時間までに、お店に来た数の瞬間最大人数</li>
+<li>ある座標に紙を置いていったときの、最大に重なっている枚数</li>
+</ul>
+<p>など</p>
+<h2><a class="header" href="#実際のプロコンでの問題例" id="実際のプロコンでの問題例">実際のプロコンでの問題例</a></h2>
+<ul>
+<li><a href="https://atcoder.jp/contests/typical90/tasks/typical90_ab">AtCoderTypecal90 028 - Cluttered Paper（★4）</a></li>
+</ul>
+<h1><a class="header" href="#考え方" id="考え方">考え方</a></h1>
+<p>累積和を\(O(N)\)で求める方法。
+<a href="https://imoz.jp/">いもす研</a>より参照。。
+例えば時間軸があってある時間に人が出たり入ったりすると仮定する。
+人\(a_i\)さんが入った時刻、出て行った時刻を</p>
+<pre><code class="language-py">a[i] = [a,b] # a:入った時刻、b:出て行った時刻
+</code></pre>
+<p>とした時、以下のようなコードであれば\(O(N)\)で状態を記録できる。</p>
+<pre><code class="language-py">A = [[a0,b0],[a1,b1]...,[aN,bN]] # Input Data
+L = [0] * INF  # 非常に長い長さのLを設定
+MAXT = INF
+for a in A:
+    L[a[0]] += 1
+    L[a[1] + 1] -= 1
+    MAXT = min(MAXT, a[1]+1) # Lを最も遅い時刻で切る
+</code></pre>
+<p>このLの最大値はそのまま最も人がたくさんいる時の人数になる。
+<img src="Other/../images/imos_1.png" alt="Image" /></p>
+<div align="center">イメージ</div>
+<h2><a class="header" href="#2次元の場合" id="2次元の場合">2次元の場合</a></h2>
+<p>２次元のimos法は例えば平面上に長方形の紙を複数配置し、その重ね合わさった枚数が一番多いところの枚数を求める、といった時に使われる。
+１次元の時のように、紙の境界だけマークしておけば良いのは同じだが、４隅にマークをつける必要がある。左上、右下だけマークするとそれぞれ端部の右側、下側も構わず加え続けられてしまう。
+ただし、以下のように２次元変数一つで済む（x方向とy方向で別々に値を格納する必要がない）
+<img src="Other/../images/imos_2d-1.png" alt="Image" /></p>
+<div align="center">2次元でのイメージ</div>
+これで、以下のコードで最も分厚い場所がわかる。
+<pre><code class="language-py">M = [[0 for _ in range(INF)] for __ in range(INF)] # INF * INF の２次元配列
+for i in range(N):
+    lx, ly, rx, ry = map(int,input().split()) #ここで四隅の座標が入力される
+    M[ly][lx] += 1 # 左上
+    M[ly][rx] -= 1 # 右上
+    M[ry][lx] -= 1 # 左下
+    M[ry][rx] += 1 # 右下
+    max_x = max(max_x,rx)
+    max_y = max(max_y,ry)
+
+# x axis Imos
+for j in range(max_y+1):
+    for i in range(max_x+1):
+        M[j][i] += M[j][i-1]
+# Y axis Imos
+for j in range(max_y+1):
+    for i in range(max_x+1):
+        M[j][i] += M[j-1][i]
+
+S = [0] * N # 重なった枚数別にその面積を記録するものS[1]は1枚重なったエリアの総面積
+for y in range(max_y):
+    for x in range(max_x):
+        S[M[y][x]] += 1
+</code></pre>
+<p>それぞれ x axis Imos、y axix Imosのイメージは以下の通り</p>
+<pre><code class="language-py"># x axis Imos
+for j in range(max_y+1):
+    for i in range(max_x+1):
+        M[j][i] += M[j][i-1]
+</code></pre>
+<p><img src="Other/../images/imos_2d-2.png" alt="Image" /></p>
+<pre><code class="language-py"># Y axis Imos
+for j in range(max_y+1):
+    for i in range(max_x+1):
+        M[j][i] += M[j-1][i]
+</code></pre>
+<p><img src="Other/../images/imos_2d-3.png" alt="Image" /></p>
+<p>ということで面積の計算は最終段で改めて行う。計算量は \(O(N^2)\) である。</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
 
-                        
-                            <a rel="next" href="Tree/Tree_main.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
                         
 
                         <div style="clear: both"></div>
@@ -164,10 +240,6 @@
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
 
-                
-                    <a rel="next" href="Tree/Tree_main.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
                 
             </nav>
 
@@ -196,6 +268,14 @@
         <!-- Custom JS scripts -->
         
 
+        
+        
+        <script type="text/javascript">
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+        
         
 
     </body>

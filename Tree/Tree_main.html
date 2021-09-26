@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Main - algo_memo</title>
+        <title>Tree - algo_memo</title>
         
 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
@@ -11,21 +11,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         
@@ -35,7 +35,7 @@
     <body>
         <!-- Provide site root to javascript -->
         <script type="text/javascript">
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "light";
         </script>
 
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="Tree/Tree_main.html"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tree/eular_tour.html"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="Other/Other_main.html"><strong aria-hidden="true">3.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Other/imos.html"><strong aria-hidden="true">3.1.</strong> いもす法</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="../Tree/Tree_main.html" class="active"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tree/eular_tour.html"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="../Other/Other_main.html"><strong aria-hidden="true">3.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Other/imos.html"><strong aria-hidden="true">3.1.</strong> いもす法</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -112,7 +112,7 @@
                     <h1 class="menu-title">algo_memo</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
                         
@@ -132,26 +132,20 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1><a class="header" href="#はじめに" id="はじめに">はじめに</a></h1>
-<p>このページはこれまで競プロ(主にAtCoder)やアルゴリズムの勉強を経て身につけた手法をメモしておく場です。
-基本作者がpythonで競プロに臨んでいるためコードもpythonになります。</p>
-<h1><a class="header" href="#早見表" id="早見表">早見表</a></h1>
-<p>こんな問題が出た時、定番となる手法はなんだったっけ？と思い出すための早見表です。</p>
-<p>どんどん追加していくので順番はバラバラです。
-数が増えた場合複数にする場合があります。</p>
-<div align="left">
-<table><thead><tr><th>問題例</th><th>解法</th></tr></thead><tbody>
-<tr><td>- 〇〇のこれまでの総和を出して欲しい<br>- ある座標位置に紙を重ねて行った時の厚みの最大値を出して欲しい</td><td><a href="./Other/imos.html">累積話の計算(imos法)</a></td></tr>
-</tbody></table>
-</div>
+                        <h1><a class="header" href="#tree関連" id="tree関連">Tree関連</a></h1>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                         
+                            <a rel="prev" href="../Main.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
 
                         
-                            <a rel="next" href="Tree/Tree_main.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="../Tree/eular_tour.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
                         
@@ -163,9 +157,13 @@
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                 
+                    <a rel="prev" href="../Main.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
 
                 
-                    <a rel="next" href="Tree/Tree_main.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="../Tree/eular_tour.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
                 
@@ -189,9 +187,9 @@
 
         
 
-        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
-        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
-        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
 
         <!-- Custom JS scripts -->
         
