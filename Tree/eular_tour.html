@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="../Tree/Tree_main.html"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tree/eular_tour.html" class="active"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="../Other/Other_main.html"><strong aria-hidden="true">3.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Other/imos.html"><strong aria-hidden="true">3.1.</strong> いもす法</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="../Tree/Tree_main.html"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Tree/eular_tour.html" class="active"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="../Other/Other_main.html"><strong aria-hidden="true">3.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../Other/imos.html"><strong aria-hidden="true">3.1.</strong> 累積話(いもす法)</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -133,6 +133,58 @@
                 <div id="content" class="content">
                     <main>
                         <h1><a class="header" href="#eular-tour" id="eular-tour">Eular Tour</a></h1>
+<p>以下の典型問題のような方法でグラフの全ての地点を訪れる方法をオイラーツアーといい、
+典型問題の１種に挙げられている。</p>
+<h2><a class="header" href="#典型問題" id="典型問題">典型問題</a></h2>
+<ul>
+<li>全ての番号の付いた地点を、以下のルールで訪れたい
+<ul>
+<li>1.最初の地点に最後戻ってくる。</li>
+<li>2.まだ訪れたことがない地点があれば、その中で最も番号の小さい地点を訪れる。</li>
+<li>3.2において、他の地点が全て訪れた場所であった場合は、直前に訪れた場所に戻る。</li>
+</ul>
+</li>
+</ul>
+<p>など</p>
+<h2><a class="header" href="#実際のプロコンでの問題例" id="実際のプロコンでの問題例">実際のプロコンでの問題例</a></h2>
+<ul>
+<li><a href="https://atcoder.jp/contests/abc213/tasks/abc213_d">AtCoder Beginner Contest 213 D</a></li>
+</ul>
+<h1><a class="header" href="#考え方実装" id="考え方実装">考え方・実装</a></h1>
+<p>dfsで解くことができる。sys.setrecursionlimit を忘れないようにする。
+以下、道がN本あり、そのそれぞれの端点がa,b（数字）であるとして変数Mに</p>
+<pre><code class="language-py">N=int(input())
+M=[[] for i in range(N)]
+for i in range(N-1):
+  a,b=map(int,input().split())
+  M[a-1].append(b-1)
+  M[b-1].append(a-1)
+</code></pre>
+<p>と入力されたと仮定してこの問題を解いていく。</p>
+<h2><a class="header" href="#実装" id="実装">実装</a></h2>
+<p>以下のように実装する。</p>
+<pre><code class="language-py">for i in range(N):M[i].sort()
+ret = list()
+'''
+C:current node
+P:previous node
+'''
+def dfs(C,P):
+  ret.append(C) # set current path to the answer
+  for next in M[C]:
+    if next!=P:
+      dfs(next,C)
+      ret.append(C)
+
+dfs(0,-1)
+ret = [a + 1 for a in ret]
+print(*ret)
+</code></pre>
+<h1><a class="header" href="#イメージ" id="イメージ">イメージ</a></h1>
+<p>末端まで行ったり、接点が全て行ったことがある状態になるとdfsが終わりその点が
+航路に追加されて、次の道(for next in M[C]のnextが一つ次になる)に進む。
+折り返しや、直前の道を覚えておく変数はこの理屈だと必要ない。（dfsが終わると自動で一つ手前のdfsに戻るため）
+<img src="../images/eular_tour-1.png" alt="Image" /></p>
 
                     </main>
 
