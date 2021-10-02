@@ -33,6 +33,9 @@
         
 
         
+        <!-- MathJax -->
+        <script async type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+        
     </head>
     <body>
         <!-- Provide site root to javascript -->
@@ -83,7 +86,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="Tree/Tree_main.html"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tree/eular_tour.html"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="Other/Other_main.html"><strong aria-hidden="true">3.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Other/imos.html"><strong aria-hidden="true">3.1.</strong> 累積話(いもす法)</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="Main.html"><strong aria-hidden="true">1.</strong> Main</a></li><li class="chapter-item expanded "><a href="Tree/Tree_main.html"><strong aria-hidden="true">2.</strong> Tree</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Tree/eular_tour.html"><strong aria-hidden="true">2.1.</strong> EularTour</a></li></ol></li><li class="chapter-item expanded "><a href="Graph/Graph_Main.html"><strong aria-hidden="true">3.</strong> Graph</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Graph/bellmanford.html"><strong aria-hidden="true">3.1.</strong> Bellman-Ford</a></li></ol></li><li class="chapter-item expanded "><a href="Other/Other_main.html"><strong aria-hidden="true">4.</strong> Other</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="Other/imos.html"><strong aria-hidden="true">4.1.</strong> 累積話(いもす法)</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,6 +148,7 @@
 <table><thead><tr><th>問題例</th><th>解法</th></tr></thead><tbody>
 <tr><td>- 〇〇のこれまでの総和を出して欲しい<br>- ある座標位置に紙を重ねて行った時の厚みの最大値を出して欲しい</td><td><a href="./Other/imos.html">累積話の計算(imos法)</a></td></tr>
 <tr><td>全ての地点をくまなくまわるが、行ったことのない点でかつ最も値の小さな点を回って欲しい</td><td><a href="./Tree/eular_tour.html">オイラーツアー</a></td></tr>
+<tr><td>マップがあって、ある点からある点の最短距離を求めたい</td><td><a href="./Graph/bellmanford.html">ベルマンフォード法</a></td></tr>
 </tbody></table>
 </div><h1><a class="header" href="#tree関連" id="tree関連">Tree関連</a></h1>
 <h1><a class="header" href="#eular-tour" id="eular-tour">Eular Tour</a></h1>
@@ -200,9 +204,64 @@ print(*ret)
 航路に追加されて、次の道(for next in M[C]のnextが一つ次になる)に進む。
 折り返しや、直前の道を覚えておく変数はこの理屈だと必要ない。（dfsが終わると自動で一つ手前のdfsに戻るため）
 <img src="Tree/../images/eular_tour-1.png" alt="Image" /></p>
+<h1><a class="header" href="#bellman-ford-algorithm" id="bellman-ford-algorithm">Bellman-Ford Algorithm</a></h1>
+<p>始点を固定して、その他の全ての頂点との最短路を求める場合に使われるアルゴリズム。計算量は \(O|V|\times|E|\)。
+典型問題の１種に挙げられている。</p>
+<h2><a class="header" href="#典型問題-1" id="典型問題-1">典型問題</a></h2>
+<ul>
+<li>N個の頂点があり、道が以下\((a_0,b_0),(a_1,b_1)...\)のように示された時、\(a_0\)から全ての点への最短距離を求めよ。
+など</li>
+</ul>
+<h2><a class="header" href="#考え方実装-1" id="考え方実装-1">考え方・実装</a></h2>
+<p>まず、N個の配列 \(d[n], (n = 0,2,...N-1)\)を作ります。これはある点からの最短距離を格納する配列である。最終的にこれを参照すれば全ての点の最短距離がわかる。
+例えば\(a_0\)からであれば、当然\(d[0]=0\)となる。
+実装は以下の通り。</p>
+<pre><code class="language-py"># Difinition of Edge clas
+class Edge:
+	def __init__(self, start, to, cost):
+		self.start = start
+		self.to = to
+		self.cost = cost
+
+#define INF
+INF = 10**9
+
+#Data Input
+V,E = map(int,input().split())
+#V: number of verticles
+#E: number of edges
+
+#d: minimum distance
+#d[v]: minimum distance from start to verticle v
+d = [INF] * V
+
+#es:list of edges
+#(input)
+es = list()
+for i in range(E):
+	#input a(from), b(to), c(cost)
+	es.append(Edge(map(int,input().split())))
+	
+#culculate d from s(s:start pos)
+def shortest_path(s):
+	#set d[s] as zero because it is the starting point
+	d[s] = 0
+	while True:
+		update = False
+		for i in range(E):
+			e = es[i]
+			if d[e.start] != INF and d[e.to] &gt; d[e.start] + e.cost:
+				d[e.to] = d[e.start] + e.cost
+				update = True
+		if update == False:
+			break
+</code></pre>
+<p>肝となるのは最後の<code>def shortest_path(s): </code>である。
+while文で<code>es</code>を呼び出して（esは道の始点、終点、距離を示したリスト）始点終点のそれぞれのその時点までの最短距離を見る。次に始点+コストの和が現時点での終点までの最小コストより小さかったら更新する。これを繰り返していく。
+whileぶんの終了条件は、一通り全ての道を巡って<code> for i in range(E)</code> 、更新が１回もされない（<code> update==False</code>のまま)時である。</p>
 <h1><a class="header" href="#other" id="other">Other</a></h1>
 <h1><a class="header" href="#累積話の計算いもす法" id="累積話の計算いもす法">累積話の計算(いもす法)</a></h1>
-<h2><a class="header" href="#典型問題-1" id="典型問題-1">典型問題</a></h2>
+<h2><a class="header" href="#典型問題-2" id="典型問題-2">典型問題</a></h2>
 <ul>
 <li>ある時間までに、お店に来た数の瞬間最大人数</li>
 <li>ある座標に紙を置いていったときの、最大に重なっている枚数</li>
@@ -212,7 +271,7 @@ print(*ret)
 <ul>
 <li><a href="https://atcoder.jp/contests/typical90/tasks/typical90_ab">AtCoderTypecal90 028 - Cluttered Paper（★4）</a></li>
 </ul>
-<h1><a class="header" href="#考え方実装-1" id="考え方実装-1">考え方・実装</a></h1>
+<h1><a class="header" href="#考え方実装-2" id="考え方実装-2">考え方・実装</a></h1>
 <p>累積和を\(O(N)\)で求める方法。
 <a href="https://imoz.jp/">いもす研</a>より参照。。
 例えば時間軸があってある時間に人が出たり入ったりすると仮定する。
@@ -325,7 +384,9 @@ for j in range(max_y+1):
         
         <script type="text/javascript">
         window.addEventListener('load', function() {
-            window.setTimeout(window.print, 100);
+            MathJax.Hub.Register.StartupHook('End', function() {
+                window.setTimeout(window.print, 100);
+            });
         });
         </script>
         
